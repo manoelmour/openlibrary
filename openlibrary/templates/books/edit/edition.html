@@ -589,7 +589,14 @@ $ })
 
             <fieldset class="minor formBackRight">
                 <legend>$_("Dimensions")</legend>
-                $ dimensions = book.get_physical_dimensions() or storage(height="", width="", depth="", units="centimeters")
+                    $ dimensions = book.get_physical_dimensions() or storage(height="", width="", depth="", units="centimeters")
+                    $ height = int(dimensions.height) if dimensions.height else 0
+                    $ width = int(dimensions.width) if dimensions.width else 0
+                    $ depth = int(dimensions.depth) if dimensions.depth else 0
+
+                    $if height <= 0 or width <= 0 or depth <= 0:
+                        <script>alert('Book dimensions must be greater than 0')</script>
+                        
                   <span class="tip">
                     $:radiobuttons("edition--physical_dimensions--units", ["centimeters", "inches"], dimensions.units)
                   </span>
